@@ -57,6 +57,10 @@
 
 	<div class="container-fluid">
 	
+		<div class="alert alert-danger" th:if="${msgError != null}">
+			<span th:text="${msgError}"></span>
+    	</div>
+	
 		<form th:action="@{/estoque/entrada/pesquisar}" th:object="${dto}" class="form-vertical  js-form-loading" method="POST">
 	
     		<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">

@@ -10,11 +10,11 @@ public interface ProdutoService {
 
     void saveOrUpdate(Produto produto);
  
-    void deleteLogic(String codigo);
+    void deleteLogic(String codigo, HttpServletRequest req);
     
     Produto findById(Long id);
     
-    Produto findByCodigoAndActive(String codigo);
+    Produto findByCodigoAndActive(String codigo, HttpServletRequest req);
  
     List<Produto> findAll();
     

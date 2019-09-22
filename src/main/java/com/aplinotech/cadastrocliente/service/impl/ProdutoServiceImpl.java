@@ -30,8 +30,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	@Override
-	public void deleteLogic(String codigo) {
-		Produto produto = produtoRepository.findByCodigoAndActive(codigo);
+	public void deleteLogic(String codigo, HttpServletRequest req) {
+		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		Produto produto = produtoRepository.findByCodigoAndActive(codigo, usuario.getId());
 		produto.setStatus("I");
 		saveOrUpdate(produto);
 	}
@@ -42,8 +43,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 	
 	@Override
-	public Produto findByCodigoAndActive(String codigo) {
-		return produtoRepository.findByCodigoAndActive(codigo);
+	public Produto findByCodigoAndActive(String codigo, HttpServletRequest req) {
+		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		return produtoRepository.findByCodigoAndActive(codigo, usuario.getId());
 	}
 
 	@Override

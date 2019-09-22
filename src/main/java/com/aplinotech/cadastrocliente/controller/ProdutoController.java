@@ -20,7 +20,6 @@ import com.aplinotech.cadastrocliente.model.Produto;
 import com.aplinotech.cadastrocliente.model.Usuario;
 import com.aplinotech.cadastrocliente.model.dto.PesquisarProdutoDTO;
 import com.aplinotech.cadastrocliente.service.impl.ProdutoServiceImpl;
-import com.aplinotech.cadastrocliente.service.impl.SetupServiceImpl;
 import com.aplinotech.cadastrocliente.service.impl.UserServiceImpl;
 
 
@@ -32,17 +31,11 @@ public class ProdutoController {
 	private ProdutoServiceImpl produtoServiceImpl;
 	
 	@Autowired
-	private SetupServiceImpl setupServiceImpl;
-	
-	@Autowired
 	private UserServiceImpl userServiceImpl;
 	
 	
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo(){
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return new ModelAndView("login/expirado");
 		
 		ModelAndView mv = new ModelAndView("produto/novo");
 		mv.addObject("produto", new Produto());
@@ -53,9 +46,6 @@ public class ProdutoController {
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
 	public ModelAndView salvar(@ModelAttribute(value = "produto") Produto produto, 
 			HttpServletRequest req, Errors errors, ModelMap modelMap) {
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return new ModelAndView("login/expirado");
 		
 		ModelAndView mv = new ModelAndView("produto/novo");
 		
@@ -89,22 +79,16 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(value = "/atualizar/{codigo}", method = RequestMethod.GET)
-	public ModelAndView alterar(@PathVariable(value = "codigo") String codigo){
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return new ModelAndView("login/expirado");
+	public ModelAndView alterar(@PathVariable(value = "codigo") String codigo, HttpServletRequest req){
 		
 		ModelAndView mv = new ModelAndView("produto/atualizar");
-		mv.addObject("produto", produtoServiceImpl.findByCodigoAndActive(codigo));
+		mv.addObject("produto", produtoServiceImpl.findByCodigoAndActive(codigo, req));
 		return mv;
 		
 	}
 	
 	@RequestMapping(value = "/alterar", method = RequestMethod.POST)
 	public ModelAndView atualizar(@ModelAttribute(value = "produto") Produto produto, Errors errors, ModelMap modelMap) {
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return new ModelAndView("login/expirado");
 		
 		ModelAndView mv = new ModelAndView("produto/atualizar");
 		modelMap.addAttribute("produto", produto);
@@ -121,21 +105,15 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(value = "/excluir/{codigo}", method =RequestMethod.GET)
-	public String excluir(@PathVariable(value = "codigo") String codigo, ModelMap modelMap){
+	public String excluir(@PathVariable(value = "codigo") String codigo, HttpServletRequest req, ModelMap modelMap){
 		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return "redirect:/login/expirado";
-		
-		produtoServiceImpl.deleteLogic(codigo);
+		produtoServiceImpl.deleteLogic(codigo, req);
 		return "redirect:/produto/listar";
 		
 	}
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(HttpServletRequest req, ModelMap modelMap) {
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return "login/expirado";
 		
 		modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive(req));
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
@@ -144,12 +122,9 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(value = "/visualizar/{codigo}", method = RequestMethod.GET)
-	public String visualizar(@PathVariable(value = "codigo") String codigo, ModelMap modelMap){
+	public String visualizar(@PathVariable(value = "codigo") String codigo, HttpServletRequest req, ModelMap modelMap){
 		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return "login/expirado";
-		
-		modelMap.addAttribute("produto", produtoServiceImpl.findByCodigoAndActive(codigo));
+		modelMap.addAttribute("produto", produtoServiceImpl.findByCodigoAndActive(codigo, req));
 		return "produto/visualizar";
 		
 	}	
@@ -157,9 +132,6 @@ public class ProdutoController {
 	@RequestMapping(value = "/consultar", method = RequestMethod.POST)
 	public String consultaProduto(@ModelAttribute("dto") PesquisarProdutoDTO dto, 
 			HttpServletRequest req, ModelMap modelMap, HttpSession session) {
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return "login/expirado";
 		
 		if ( !"".equals(dto.getNome()) ) {
 			

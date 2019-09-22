@@ -54,6 +54,8 @@
 	<div class="container-fluid">
 	
 		<form method="POST" th:action="@{/produto/alterar}" th:object="${produto}" class="form-vertical  js-form-loading">
+		
+			<input type="hidden" th:field="*{usuario}"/>
 			
 			<!-- MENSAGEM DE SUCESSO -->
     		<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
