@@ -75,6 +75,14 @@ public class EstoqueController {
 	@RequestMapping(value = "/entrada/salvar", method = RequestMethod.POST)
 	public ModelAndView entradaSalvar(@ModelAttribute(value = "produto") Produto produto) {
 		
+		if (produto.getId() == null) {
+			ModelAndView mv = new ModelAndView("produto/entrada");
+			mv.addObject("msgWarning", "Escolha primeiro o produto");
+			mv.addObject("dto", new PesquisarProdutoDTO());
+			mv.addObject("produto", new Produto());
+			return mv;
+		}
+		
 		Produto produtoBanco = produtoServiceImpl.findById(produto.getId());
 		produtoBanco.setValorVendaUnitario(produto.getValorVendaUnitario());
 		produtoBanco.setCustoUnitario(produto.getCustoUnitario());
@@ -205,7 +213,13 @@ public class EstoqueController {
 		
 		Produto produto = produtoServiceImpl.findByCodigoAndActive(dto.getCodigoProduto(), req);
 		
-		// TODO retorna msg de erro caso nao encontre o produto
+		// TODO PAREI AQUI
+		
+		if (produto == null) {
+			modelMap.addAttribute("produto", new Produto());
+			modelMap.addAttribute("msgError", "Produto não encontrado");
+			return "produto/baixa";
+		}
 		
 		modelMap.addAttribute("produtosBaixa", baixa.getProdutos());
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
@@ -257,9 +271,6 @@ public class EstoqueController {
 	
 	@RequestMapping(value = "/baixa", method = RequestMethod.GET)
 	public String baixa(ModelMap modelMap, HttpSession session) {
-		
-		if (setupServiceImpl.sistemaExpirou()) 
-			return "login/expirado";
 		
 		//List<Produto> list = new ArrayList<Produto>();
 		Baixa baixa = new Baixa();

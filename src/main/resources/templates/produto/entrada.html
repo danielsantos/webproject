@@ -60,6 +60,10 @@
 		<div class="alert alert-danger" th:if="${msgError != null}">
 			<span th:text="${msgError}"></span>
     	</div>
+    	
+		<div class="alert alert-warning" th:if="${msgWarning != null}">
+			<span th:text="${msgWarning}"></span>
+    	</div>
 	
 		<form th:action="@{/estoque/entrada/pesquisar}" th:object="${dto}" class="form-vertical  js-form-loading" method="POST">
 	
