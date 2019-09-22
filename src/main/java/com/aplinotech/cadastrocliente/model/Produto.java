@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -37,6 +38,9 @@ public class Produto {
 	
 	@Column(nullable = true, length = 1)
 	private String status;
+	
+	@OneToOne
+	private Usuario usuario;
 	
 	@Transient
 	private Integer qtdParaBaixa = 0;
@@ -126,6 +130,14 @@ public class Produto {
 
 	public BigDecimal getValorTotal() {
 		return valorVendaUnitario.multiply(new BigDecimal(qtdParaBaixa));
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

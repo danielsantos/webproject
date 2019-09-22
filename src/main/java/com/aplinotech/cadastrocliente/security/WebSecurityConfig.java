@@ -1,4 +1,3 @@
-/*
 package com.aplinotech.cadastrocliente.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +12,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-//	private static final String USERNAME = "a";
-//	private static final String PASSWORD = "a";
-//	private static final String ROLE 	 = "ADMIN";
-//	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-//		auth.inMemoryAuthentication()
-//			.withUser(USERNAME)
-//			.password(PASSWORD)
-//			.roles(ROLE);
-//	}
-
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -51,4 +38,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 }
-*/

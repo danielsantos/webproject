@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -370,7 +371,8 @@ public class EstoqueController {
 	}
 	
 	@RequestMapping(value = "/consultar/produto/nome", method = RequestMethod.POST)
-	public String consultaProduto(@ModelAttribute("dto") PesquisarProdutoDTO dto, ModelMap modelMap, HttpSession session) {
+	public String consultaProduto(@ModelAttribute("dto") PesquisarProdutoDTO dto, 
+			HttpServletRequest req, ModelMap modelMap, HttpSession session) {
 		
 		if (setupServiceImpl.sistemaExpirou()) 
 			return "login/expirado";
@@ -381,7 +383,7 @@ public class EstoqueController {
 			
 		} else { 
 
-			modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive());
+			modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive(req));
 			
 		}
 			

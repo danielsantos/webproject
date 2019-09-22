@@ -3,6 +3,7 @@ package com.aplinotech.cadastrocliente.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aplinotech.cadastrocliente.model.Produto;
+import com.aplinotech.cadastrocliente.model.Usuario;
 import com.aplinotech.cadastrocliente.model.dto.PesquisarProdutoDTO;
 import com.aplinotech.cadastrocliente.service.impl.ProdutoServiceImpl;
 import com.aplinotech.cadastrocliente.service.impl.SetupServiceImpl;
+import com.aplinotech.cadastrocliente.service.impl.UserServiceImpl;
 
 
 @Controller
@@ -30,6 +33,9 @@ public class ProdutoController {
 	
 	@Autowired
 	private SetupServiceImpl setupServiceImpl;
+	
+	@Autowired
+	private UserServiceImpl userServiceImpl;
 	
 	
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
@@ -45,7 +51,8 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
-	public ModelAndView salvar(@ModelAttribute(value = "produto") Produto produto, Errors errors, ModelMap modelMap){
+	public ModelAndView salvar(@ModelAttribute(value = "produto") Produto produto, 
+			HttpServletRequest req, Errors errors, ModelMap modelMap) {
 		
 		if (setupServiceImpl.sistemaExpirou()) 
 			return new ModelAndView("login/expirado");
@@ -69,6 +76,9 @@ public class ProdutoController {
 			modelMap.addAttribute("produto", produto);
 			return mv;
 		} else {
+			Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+			
+			produto.setUsuario(usuario);
 			produto.setStatus("A"); // TODO criar um enum
 			produtoServiceImpl.saveOrUpdate(produto);
 			mv.addObject("mensagem", "Produto cadastrado com sucesso!");
@@ -122,12 +132,12 @@ public class ProdutoController {
 	}
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public String listar(ModelMap modelMap) {
+	public String listar(HttpServletRequest req, ModelMap modelMap) {
 		
 		if (setupServiceImpl.sistemaExpirou()) 
 			return "login/expirado";
 		
-		modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive());
+		modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive(req));
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
 		return "produto/listar";
 		
@@ -145,7 +155,8 @@ public class ProdutoController {
 	}	
 	
 	@RequestMapping(value = "/consultar", method = RequestMethod.POST)
-	public String consultaProduto(@ModelAttribute("dto") PesquisarProdutoDTO dto, ModelMap modelMap, HttpSession session) {
+	public String consultaProduto(@ModelAttribute("dto") PesquisarProdutoDTO dto, 
+			HttpServletRequest req, ModelMap modelMap, HttpSession session) {
 		
 		if (setupServiceImpl.sistemaExpirou()) 
 			return "login/expirado";
@@ -165,7 +176,7 @@ public class ProdutoController {
 			modelMap.addAttribute("produtos", produtos);
 			
 		} else { 
-			modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive());
+			modelMap.addAttribute("produtos", produtoServiceImpl.findAllActive(req));
 		}
 			
 	    modelMap.addAttribute("dto", new PesquisarProdutoDTO());		

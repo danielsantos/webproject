@@ -2,6 +2,8 @@ package com.aplinotech.cadastrocliente.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.aplinotech.cadastrocliente.model.Produto;
 
 public interface ProdutoService {
@@ -16,7 +18,7 @@ public interface ProdutoService {
  
     List<Produto> findAll();
     
-    List<Produto> findAllActive();
+    List<Produto> findAllActive(HttpServletRequest req);
     
     List<Produto> findByNome(String nome);
     

@@ -2,11 +2,14 @@ package com.aplinotech.cadastrocliente.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aplinotech.cadastrocliente.model.Produto;
+import com.aplinotech.cadastrocliente.model.Usuario;
 import com.aplinotech.cadastrocliente.repository.ProdutoRepository;
 import com.aplinotech.cadastrocliente.service.ProdutoService;
 
@@ -16,6 +19,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private UserServiceImpl userServiceImpl;
+	
 
 	@Override
 	public void saveOrUpdate(Produto produto) {
@@ -45,8 +52,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 	
 	@Override
-	public List<Produto> findAllActive() {
-		return produtoRepository.findAllActive();
+	public List<Produto> findAllActive(HttpServletRequest req) {
+		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		return produtoRepository.findAllActive(usuario.getId());
 	}
 	
 	@Override

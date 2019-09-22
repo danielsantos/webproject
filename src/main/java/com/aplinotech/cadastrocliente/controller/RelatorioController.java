@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -141,13 +143,13 @@ public class RelatorioController {
 	}
 	
 	@RequestMapping("/estoque/gerar")
-	public ModelAndView estoqueGerar() {
+	public ModelAndView estoqueGerar(HttpServletRequest req) {
 		
 		if (setupServiceImpl.sistemaExpirou()) 
 			return new ModelAndView("login/expirado");
 		
 		ModelAndView mv = new ModelAndView("relatorio/estoquerel");
-		List<Produto> list = produtoServiceImpl.findAllActive();
+		List<Produto> list = produtoServiceImpl.findAllActive(req);
 		
 		BigDecimal custoUnitarioTotal = new BigDecimal(0);
 		BigDecimal valorVendaUnitarioTotal = new BigDecimal(0);
