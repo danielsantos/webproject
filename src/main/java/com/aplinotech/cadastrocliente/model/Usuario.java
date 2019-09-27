@@ -3,18 +3,13 @@ package com.aplinotech.cadastrocliente.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public class Usuario {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Long id;
 
@@ -35,7 +30,7 @@ public class Usuario {
 
 	@Column
 	private Date dataCadastro;
-	
+
 	@Transient
 	private String passwordConfirm;
 
