@@ -12,5 +12,10 @@ public class HomeController {
 	public String home() {
 		return "login/home";
 	}
+	
+	@RequestMapping(value = "/cadastrese", method = RequestMethod.GET)
+	public String cadastrese() {
+		return "login/cadastrese";
+	}
 
 }
