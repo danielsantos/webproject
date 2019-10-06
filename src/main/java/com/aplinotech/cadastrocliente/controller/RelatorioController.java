@@ -90,14 +90,14 @@ public class RelatorioController {
 	}
 	
 	@RequestMapping("/saida/gerar")
-	public ModelAndView saidaGerar(@ModelAttribute("dto") RelatorioDTO dto) {
+	public ModelAndView saidaGerar(@ModelAttribute("dto") RelatorioDTO dto, HttpServletRequest req) {
 		ModelAndView mv = new ModelAndView("relatorio/saidarel");
 		
 		SimpleDateFormat sdfBD = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		List<ItemBaixa> list = new ArrayList<ItemBaixa>();
 		
 		try {
-			list = baixaServiceImpl.findByDates(sdfBD.parse(dto.getDataInicio() + " 00:00:00"), sdfBD.parse(dto.getDataFim() + " 23:59:59"));
+			list = baixaServiceImpl.findByDates(sdfBD.parse(dto.getDataInicio() + " 00:00:00"), sdfBD.parse(dto.getDataFim() + " 23:59:59"), req);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

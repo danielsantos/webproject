@@ -3,6 +3,8 @@ package com.aplinotech.cadastrocliente.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.aplinotech.cadastrocliente.model.Baixa;
 import com.aplinotech.cadastrocliente.model.ItemBaixa;
 
@@ -16,6 +18,6 @@ public interface BaixaService {
  
     List<Baixa> findAll();
     
-    List<ItemBaixa> findByDates(Date dataInicio, Date dataFim);
+    List<ItemBaixa> findByDates(Date dataInicio, Date dataFim, HttpServletRequest req);
  
 }
