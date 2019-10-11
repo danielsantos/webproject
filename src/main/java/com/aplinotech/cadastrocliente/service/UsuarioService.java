@@ -7,4 +7,8 @@ public interface UsuarioService {
 
     void saveOrUpdate(Usuario usuario);
 
+    Usuario findByToken(String token);
+
+    void confirmaCadastro(Usuario usuario);
+
 }

@@ -12,7 +12,7 @@ import com.aplinotech.cadastrocliente.model.Usuario;
 @Repository
 public interface UserRepository extends JpaRepository<Usuario, Long> {
 
-    @Query(value="SELECT u FROM Usuario u WHERE u.username = :username")
+    @Query(value="SELECT u FROM Usuario u WHERE u.username = :username AND u.situacao = 'A'")
     Usuario findByUsernameAndActive(@Param("username") String username);
 	
 	List<Usuario> findByNome(String nome);

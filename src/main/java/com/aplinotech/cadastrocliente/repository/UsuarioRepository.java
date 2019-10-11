@@ -12,4 +12,7 @@ import java.util.List;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
+    @Query("select u from Usuario u where u.tokenCadastro = :tokenCadastro")
+    Usuario findByToken(@Param("tokenCadastro") String tokenCadastro);
+
 }

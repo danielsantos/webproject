@@ -31,6 +31,12 @@ public class Usuario {
 	@Column
 	private Date dataCadastro;
 
+	@Column
+	private String situacao;
+
+	@Column
+	private String tokenCadastro;
+
 	@Transient
 	private String passwordConfirm;
 
@@ -108,6 +114,22 @@ public class Usuario {
 
 	public void setConfirmeEmail(String confirmeEmail) {
 		this.confirmeEmail = confirmeEmail;
+	}
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
+
+	public String getTokenCadastro() {
+		return tokenCadastro;
+	}
+
+	public void setTokenCadastro(String tokenCadastro) {
+		this.tokenCadastro = tokenCadastro;
 	}
 
 }

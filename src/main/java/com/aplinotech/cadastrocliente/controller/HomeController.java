@@ -4,9 +4,7 @@ import com.aplinotech.cadastrocliente.model.Usuario;
 import com.aplinotech.cadastrocliente.service.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -23,17 +21,35 @@ public class HomeController {
 	
 	@RequestMapping(value = "/cadastrese/form", method = RequestMethod.GET)
 	public ModelAndView cadastreseForm() {
-
 		ModelAndView mv = new ModelAndView("login/cadastrese");
 		mv.addObject("usuario", new Usuario());
 		return mv;
-
 	}
 
 	@RequestMapping(value = "/cadastrese", method = RequestMethod.POST)
 	public String cadastrese(@ModelAttribute(value = "usuario") Usuario usuario) {
 		usuarioServiceImpl.saveOrUpdate(usuario);
 		return "login/cadastrese";
+	}
+
+	@GetMapping("/confirmaCadastro/{token}")
+	public ModelAndView confirmaCadastro(@PathVariable("token") String token) {
+
+		Usuario usuario = usuarioServiceImpl.findByToken(token);
+		if ( usuario != null ) {
+			usuarioServiceImpl.confirmaCadastro(usuario);
+
+			ModelAndView mv = new ModelAndView("/login/login");
+			mv.addObject("msgSucesso", "Cadastro confirmado com sucesso!");
+			return mv;
+		} else {
+			//ModelAndView mv = serviceLeilao.paginaInicial();
+			//mv.addObject("msgErro", "Link inválido.");
+			//return mv;
+		}
+
+		return null;
+
 	}
 
 }
