@@ -27,9 +27,12 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/cadastrese", method = RequestMethod.POST)
-	public String cadastrese(@ModelAttribute(value = "usuario") Usuario usuario) {
+	public ModelAndView cadastrese(@ModelAttribute(value = "usuario") Usuario usuario) {
 		usuarioServiceImpl.saveOrUpdate(usuario);
-		return "login/cadastrese";
+		
+		ModelAndView mv = new ModelAndView("/login/login");
+		mv.addObject("msgSucesso", "Enviamos para você um email com um link para confirmar seu cadastro.");
+		return mv;
 	}
 
 	@GetMapping("/confirmaCadastro/{token}")
