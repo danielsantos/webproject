@@ -1,6 +1,7 @@
 package com.aplinotech.cadastrocliente.controller;
 
 import com.aplinotech.cadastrocliente.model.Usuario;
+import com.aplinotech.cadastrocliente.service.impl.EmailServiceImpl;
 import com.aplinotech.cadastrocliente.service.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,10 @@ public class HomeController {
 
 	@Autowired
 	private UsuarioServiceImpl usuarioServiceImpl;
+	
+	//@Autowired
+	//private EmailServiceImpl emailServiceImpl;
+	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -29,6 +34,7 @@ public class HomeController {
 	@RequestMapping(value = "/cadastrese", method = RequestMethod.POST)
 	public ModelAndView cadastrese(@ModelAttribute(value = "usuario") Usuario usuario) {
 		usuarioServiceImpl.saveOrUpdate(usuario);
+		//emailServiceImpl.confirmarCadastro(usuario);
 		
 		ModelAndView mv = new ModelAndView("/login/login");
 		mv.addObject("msgSucesso", "Enviamos para você um email com um link para confirmar seu cadastro.");

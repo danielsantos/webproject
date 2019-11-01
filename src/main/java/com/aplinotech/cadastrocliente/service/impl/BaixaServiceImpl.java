@@ -51,7 +51,7 @@ public class BaixaServiceImpl implements BaixaService {
 
 	@Override
 	public List<ItemBaixa> findByDates(Date dataInicio, Date dataFim, HttpServletRequest req) {
-		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		Usuario usuario = userServiceImpl.findByUsernameAndActive(req.getRemoteUser());
 		return baixaRepository.findByDates(dataInicio, dataFim, usuario.getId());
 	}
 

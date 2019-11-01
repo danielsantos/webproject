@@ -13,7 +13,7 @@ import com.aplinotech.cadastrocliente.model.Entrada;
 @Repository
 public interface EntradaRepository extends JpaRepository<Entrada, Long>{
 
-    @Query(value="SELECT e FROM Entrada e WHERE data BETWEEN :dataInicio AND :dataFim")
-    List<Entrada> findByDates(@Param("dataInicio") Date dataInicio, @Param("dataFim") Date dataFim);
+    @Query(value="SELECT e FROM Entrada e WHERE data BETWEEN :dataInicio AND :dataFim AND e.produto.usuario.id = :idUsuario")
+    List<Entrada> findByDates(@Param("dataInicio") Date dataInicio, @Param("dataFim") Date dataFim, @Param("idUsuario") Long idUsuario);
 	
 }

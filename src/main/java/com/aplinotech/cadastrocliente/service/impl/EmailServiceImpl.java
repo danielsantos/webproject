@@ -16,10 +16,10 @@ public class EmailServiceImpl implements EmailService {
                     " \n\n" +
                     " Clique no link abaixo para confirmar seu cadastro no Vem Leiloar: " +
                     " \n\n " +
-                    " http://localhost:8080/usuario/confirmaCadastro/" + usuario.getTokenCadastro();
+                    " http://localhost:8080/confirmaCadastro/" + usuario.getTokenCadastro();
 
             Email email = getEmail(usuario);
-            email.setSubject("Vem Leiloar! - Confirmação de Cadastro");
+            email.setSubject("Estoque Simples - Confirmação de Cadastro");
             email.setMsg(texto);
             email.send();
         } catch (Exception e) {
@@ -30,11 +30,11 @@ public class EmailServiceImpl implements EmailService {
     private Email getEmail(Usuario usuario) {
         try {
             Email email = new SimpleEmail();
-            email.setHostName("smtp.vemleiloar.com.br");
+            email.setHostName("smtp.estoquesimples.com.br");
             email.setSmtpPort(587);
-            email.setAuthenticator(new DefaultAuthenticator("contato@vemleiloar.com.br", "Alina200263"));
+            email.setAuthenticator(new DefaultAuthenticator("contato@estoquesimples.com.br", "*****"));
             email.setSSL(false);
-            email.setFrom("contato@vemleiloar.com.br");
+            email.setFrom("naoresponda@estoquesimples.com.br");
             email.addTo(usuario.getEmail());
             return email;
         } catch (Exception e) {

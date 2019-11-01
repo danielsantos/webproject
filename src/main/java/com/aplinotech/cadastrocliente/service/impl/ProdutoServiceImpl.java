@@ -1,5 +1,6 @@
 package com.aplinotech.cadastrocliente.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 	
 	@Override
 	public Produto findByCodigoAndActive(String codigo, HttpServletRequest req) {
-		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		Usuario usuario = userServiceImpl.findByUsernameAndActive(req.getRemoteUser());
 		return produtoRepository.findByCodigoAndActive(codigo, usuario.getId());
 	}
 
@@ -55,8 +56,15 @@ public class ProdutoServiceImpl implements ProdutoService {
 	
 	@Override
 	public List<Produto> findAllActive(HttpServletRequest req) {
-		Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+		Usuario usuario = userServiceImpl.findByUsernameAndActive(req.getRemoteUser());
 		return produtoRepository.findAllActive(usuario.getId());
+		/*List<Produto> produtos = produtoRepository.findAllActive(usuario.getId());
+		
+		if (produtos.isEmpty()) {
+			return new ArrayList<Produto>();
+		} else {
+			return produtos;
+		}*/
 	}
 	
 	@Override

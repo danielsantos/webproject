@@ -58,14 +58,14 @@ public class RelatorioController {
 	
 	
 	@RequestMapping("/entrada/gerar")
-	public ModelAndView entradaGerar(@ModelAttribute("dto") RelatorioDTO dto) {
+	public ModelAndView entradaGerar(@ModelAttribute("dto") RelatorioDTO dto, HttpServletRequest req) {
 		ModelAndView mv = new ModelAndView("relatorio/entradarel");
 		
 		SimpleDateFormat sdfBD = new SimpleDateFormat("dd/MM/yyyy");
 		List<Entrada> list = new ArrayList<Entrada>();
 		
 		try {
-			list = entradaServiceImpl.findByDates(sdfBD.parse(dto.getDataInicio()), sdfBD.parse(dto.getDataFim()));
+			list = entradaServiceImpl.findByDates(sdfBD.parse(dto.getDataInicio()), sdfBD.parse(dto.getDataFim()), req);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

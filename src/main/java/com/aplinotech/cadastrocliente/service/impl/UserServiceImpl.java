@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
 		List<Usuario> users = userRepository.findByNome(nome);
 		return users;
 	}
+	
+	@Override
+	public Usuario findByUsernameAndActive(String username) {
+		return userRepository.findByUsernameAndActive(username);
+	}
 
 	@Override
 	public void saveUser(Usuario user) {

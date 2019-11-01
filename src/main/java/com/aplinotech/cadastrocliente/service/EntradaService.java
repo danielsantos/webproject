@@ -18,7 +18,7 @@ public interface EntradaService {
 
     void saveOrUpdate(Entrada entrada);
  
-    List<Entrada> findByDates(Date dataInicio, Date dataFim);
+    List<Entrada> findByDates(Date dataInicio, Date dataFim, HttpServletRequest req);
 
     ModelAndView entrada();
 
@@ -43,5 +43,5 @@ public interface EntradaService {
 
     String baixa(@ModelAttribute("dto") PesquisarProdutoDTO dto, HttpServletRequest req, ModelMap modelMap,
                  HttpSession session);
-
+    
 }

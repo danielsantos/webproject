@@ -52,6 +52,13 @@
 	</div>
 
 	<div class="container-fluid">
+	
+		<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+    		<span th:text="${mensagem}"></span>
+    		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   				<span aria-hidden="true">&times;</span>
+   			</button>
+   		</div>
 		
 		<!-- PESQUISA -->
 		<form method="post" th:action="@{/produto/consultar}" th:object="${dto}" class="form-vertical  js-form-loading">

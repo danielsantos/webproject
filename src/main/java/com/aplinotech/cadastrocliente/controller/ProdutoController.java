@@ -66,7 +66,7 @@ public class ProdutoController {
 			modelMap.addAttribute("produto", produto);
 			return mv;
 		} else {
-			Usuario usuario = userServiceImpl.findByNome(req.getRemoteUser()).get(0);
+			Usuario usuario = userServiceImpl.findByUsernameAndActive(req.getRemoteUser());
 			
 			produto.setUsuario(usuario);
 			produto.setStatus("A"); // TODO criar um enum

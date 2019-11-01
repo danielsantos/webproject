@@ -5,26 +5,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.aplinotech.cadastrocliente.model.Baixa;
-import com.aplinotech.cadastrocliente.model.ItemBaixa;
-import com.aplinotech.cadastrocliente.model.Produto;
-import com.aplinotech.cadastrocliente.model.dto.PesquisarProdutoDTO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.aplinotech.cadastrocliente.model.Entrada;
-import com.aplinotech.cadastrocliente.repository.EntradaRepository;
-import com.aplinotech.cadastrocliente.service.EntradaService;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import com.aplinotech.cadastrocliente.model.Baixa;
+import com.aplinotech.cadastrocliente.model.Entrada;
+import com.aplinotech.cadastrocliente.model.ItemBaixa;
+import com.aplinotech.cadastrocliente.model.Produto;
+import com.aplinotech.cadastrocliente.model.Usuario;
+import com.aplinotech.cadastrocliente.model.dto.PesquisarProdutoDTO;
+import com.aplinotech.cadastrocliente.repository.EntradaRepository;
+import com.aplinotech.cadastrocliente.service.EntradaService;
 
 @Service
 @Transactional
@@ -41,6 +40,9 @@ public class EntradaServiceImpl implements EntradaService {
 
 	@Autowired
 	private ItemBaixaServiceImpl itemBaixaServiceImpl;
+	
+	@Autowired
+	private UserServiceImpl userServiceImpl;
 
 
 	@Override
@@ -49,8 +51,9 @@ public class EntradaServiceImpl implements EntradaService {
 	}
 
 	@Override
-	public List<Entrada> findByDates(Date dataInicio, Date dataFim) {
-		return entradaRepository.findByDates(dataInicio, dataFim);
+	public List<Entrada> findByDates(Date dataInicio, Date dataFim, HttpServletRequest req) {
+		Usuario usuario = userServiceImpl.findByUsernameAndActive(req.getRemoteUser());
+		return entradaRepository.findByDates(dataInicio, dataFim, usuario.getId());
 	}
 
 	@Override
@@ -151,8 +154,8 @@ public class EntradaServiceImpl implements EntradaService {
 			produtoServiceImpl.saveOrUpdate(prod);
 		}
 		session.setAttribute("baixa", null);
-		ModelAndView mv = new ModelAndView("produto/baixa");
-		mv.addObject("mensagem", "Baixa efetuada com sucesso!");
+		ModelAndView mv = new ModelAndView("login/home");
+		mv.addObject("mensagem", "Baixa de Estoque efetuada com sucesso!");
 		mv.addObject("produto", new Produto());
 		mv.addObject("dto", new PesquisarProdutoDTO());
 		mv.addObject("baixa", new Baixa());
@@ -210,7 +213,7 @@ public class EntradaServiceImpl implements EntradaService {
 		modelMap.addAttribute("produto", new Produto());
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
 		modelMap.addAttribute("baixa", baixa);
-		return "produto/baixa";
+		return "produto/baixaThree";
 	}
 
 	@Override
@@ -251,7 +254,7 @@ public class EntradaServiceImpl implements EntradaService {
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
 		modelMap.addAttribute("produto", new Produto());
 		modelMap.addAttribute("baixa", baixa);
-		return "produto/baixa";
+		return "produto/baixaOne";
 
 	}
 
@@ -288,7 +291,7 @@ public class EntradaServiceImpl implements EntradaService {
 		modelMap.addAttribute("produto", produto);
 		modelMap.addAttribute("baixa", baixa);
 
-		return "produto/baixa";
+		return "produto/baixaTwo";
 
 	}
 
@@ -325,7 +328,7 @@ public class EntradaServiceImpl implements EntradaService {
 		modelMap.addAttribute("dto", new PesquisarProdutoDTO());
 		modelMap.addAttribute("produto", produto);
 		modelMap.addAttribute("baixa", baixa);
-		return "produto/baixa";
+		return "produto/baixaTwo";
 
 	}
 

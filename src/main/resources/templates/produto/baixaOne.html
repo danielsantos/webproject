@@ -36,6 +36,7 @@
 		$(function(){
 			$('#valorVendaUnitario').bind('keypress',mask.money)
 		});
+		
 	</script>
 </head>
 
@@ -55,7 +56,12 @@
 	</div>
 
 	<div class="container-fluid">
+	
+		<div align="center" id="textStep" style="color: green;">
+			<h2>Primeiro, escolha o produto que deseja dar baixa no estoque</h2>
+		</div>
 		
+		<div align="center">
 		<!-- PESQUISA -->
 		<form th:action="@{/estoque/pesquisar}" th:object="${dto}" class="form-vertical  js-form-loading" method="POST">
 		
@@ -66,20 +72,18 @@
     			</button>
     		</div>
 		
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="input-produto-preco">Código:</label>
-						<div class="form-inline">
-							<input th:field="*{codigoProduto}" type="text" class="form-control  aw-form-control-inline-sm" placeholder="Código"/>
-							<button class="btn  btn-primary" type="submit" style="margin-left: 10px">Pesquisar</button>							       
-							<a th:href="@{/estoque/consultar/produto/nome/form}" class="btn  btn-primary" style="margin-left: 10px">Pesquisar Por Nome</a>
-						</div>
-					</div>
-				</div>
+			<div style="margin-top: 2%">
+			<input th:field="*{codigoProduto}" type="text" style="width: 20% !important" class="form-control  aw-form-control-inline-sm" placeholder="Digite aqui o Código do Produto"/>
+			<button class="btn  btn-primary" type="submit" style="margin-left: 10px">Pesquisar</button>
+			</div>
+			
+			<div style="margin-top: 2%">						       
+			<a th:href="@{/estoque/consultar/produto/nome/form}" class="btn  btn-primary" style="margin-left: 10px">Ou clique aqui para Pesquisar pelo Nome do Produto</a>
 			</div>
 		</form>
+			</div>
 			
+		<div style="display: none">	
 		<form th:action="@{/estoque/baixa/add}" th:object="${produto}" class="form-vertical js-form-loading" method="POST">
 			<div class="row">
 				<div class="col-sm-6">
@@ -166,6 +170,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 		
 	</div>

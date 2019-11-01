@@ -23,5 +23,7 @@ public interface UserService {
     List<Usuario> findAllUsers();
  
     boolean isUserExist(Usuario user);
+    
+    Usuario findByUsernameAndActive(String username);
 	
 }
